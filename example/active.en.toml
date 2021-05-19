@@ -1,0 +1,23 @@
+Greeting = "Hello {{.Name}}"
+
+[ERR_Auth]
+description = "授权验证失败"
+other = "auth error"
+
+[ERR_DB]
+description = "数据库错误"
+other = "Database error"
+
+[ERR_Server]
+description = "服务错误"
+other = "server error"
+
+[UnreadEmails]
+description = "The number of unread emails I have"
+one = "I have {{.PluralCount}} unread email."
+other = "I have {{.PluralCount}} unread emails."
+
+[UnreadSMS]
+description = "The number of unread emails I have"
+one = "I have {{.PluralCount}} unread sms."
+other = "I have {{.PluralCount}} unread sms."

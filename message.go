@@ -5,42 +5,49 @@ import (
 	"strings"
 )
 
-// Message is a string that can be localized.
+// 可本地化的消息。
+//  LDML，即Unicode Locale Data Markup Language(UNICODE语言环境数据标记语言);
+//  CLDR，即Unicode Common Locale Data Repository(通用语言环境数据库),可参考：
+//   http://cldr.unicode.org/index
+//   http://cldr.unicode.org/index/cldr-spec/plural-rules
+//   https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
 type Message struct {
-	// ID uniquely identifies the message.
+	// 唯一标识
 	ID string
 
-	// Hash uniquely identifies the content of the message
-	// that this message was translated from.
+	// 唯一标识了其翻译的消息内容。
 	Hash string
 
-	// Description describes the message to give additional
-	// context to translators that may be relevant for translation.
+	// 消息描述
 	Description string
 
-	// LeftDelim is the left Go template delimiter.
+	// Go模板的左分隔符
 	LeftDelim string
 
-	// RightDelim is the right Go template delimiter.``
+	// Go模板的右分隔符
 	RightDelim string
 
-	// Zero is the content of the message for the CLDR plural form "zero".
+	// CLDR复数形式“Zero”的消息内容。
 	Zero string
 
-	// One is the content of the message for the CLDR plural form "one".
+	// CLDR复数形式“One”的消息内容
 	One string
 
-	// Two is the content of the message for the CLDR plural form "two".
+	// CLDR复数形式“Two”的消息内容
 	Two string
 
-	// Few is the content of the message for the CLDR plural form "few".
+	// 很少,CLDR复数形式“Few”的消息内容
 	Few string
 
-	// Many is the content of the message for the CLDR plural form "many".
+	// 许多,CLDR复数形式“Many”的消息内容
 	Many string
 
-	// Other is the content of the message for the CLDR plural form "other".
+	// CLDR复数形式“Other”的消息内容
 	Other string
+}
+
+func (m *Message) String() string {
+	return fmt.Sprintf("%+v", *m)
 }
 
 // NewMessage parses data and returns a new message.

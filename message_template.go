@@ -2,20 +2,19 @@ package i18n
 
 import (
 	"fmt"
-
 	"text/template"
 
 	"github.com/hollson/i18n/internal"
 	"github.com/hollson/i18n/internal/plural"
 )
 
-// MessageTemplate is an executable template for a message.
+// 消息的可执行模板
 type MessageTemplate struct {
-	*Message
-	PluralTemplates map[plural.Form]*internal.Template
+	*Message                                           // 消息
+	PluralTemplates map[plural.Form]*internal.Template // 模板
 }
 
-// NewMessageTemplate returns a new message template.
+// 创建消息的可执行模板
 func NewMessageTemplate(m *Message) *MessageTemplate {
 	pluralTemplates := map[plural.Form]*internal.Template{}
 	setPluralTemplate(pluralTemplates, plural.Zero, m.Zero, m.LeftDelim, m.RightDelim)

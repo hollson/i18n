@@ -9,38 +9,13 @@ import (
 )
 
 func mainUsage() {
-    fmt.Fprintf(os.Stderr, `i18n_cli是一个「hollson/i18」多语言包的客户端工具.
+    fmt.Fprintf(os.Stderr, `这是一个「github.com/hollson/i18」多语言库的客户端工具.
 用法:
-	i18n_cli command [arguments]
+	i18n_cli <command> [arguments]
 
 command列表:
+	extract		从go源码提取「i18n.Message」,即预翻译的消息(不包含测试文件)
 	merge		合并翻译文件
-	extract		从go源码提预取翻译的词汇(不包含测试文件)
-
-工作流程:
-	使用'i18n_cli extract'创建一个包含Go源文件中定义的消息文件.
-		# en.toml
-		[PersonCats]
-		description = "The number of cats a person has"
-		one = "{{.Name}} has {{.Count}} cat."
-		other = "{{.Name}} has {{.Count}} cats."
-	使用'i18n_cli merge'创建用于翻译的消息文件.
-		# translate.es.toml
-		[PersonCats]
-		description = "The number of cats a person has"
-		hash = "sha1-f937a0e05e19bfe6cd70937c980eaf1f9832f091"
-		one = "{{.Name}} has {{.Count}} cat."
-		other = "{{.Name}} has {{.Count}} cats."
-	使用“i18n_cli merge”将翻译后的消息文件与现有的消息文件合并.
-		# active.es.toml
-		[PersonCats]
-		description = "The number of cats a person has"
-		hash = "sha1-f937a0e05e19bfe6cd70937c980eaf1f9832f091"
-		one = "{{.Name}} tiene {{.Count}} gato."
-		other = "{{.Name}} tiene {{.Count}} gatos."
-	将活动消息加载到您的包中.
-		bundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)
-		bundle.MustLoadMessageFile("active.es.toml")
 `)
 }
 

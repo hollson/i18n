@@ -1,6 +1,6 @@
 package plural
 
-// Form represents a language pluralization form as defined here:
+// 语言的复数形式，可参考：
 // http://cldr.unicode.org/index/cldr-spec/plural-rules
 type Form string
 

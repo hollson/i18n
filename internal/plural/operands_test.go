@@ -26,6 +26,7 @@ func TestNewOperands(t *testing.T) {
 	}
 	for _, test := range tests {
 		ops, err := NewOperands(test.input)
+
 		if err != nil && !test.err {
 			t.Errorf("NewOperands(%#v) unexpected error: %s", test.input, err)
 		} else if err == nil && test.err {
