@@ -201,7 +201,7 @@ func TestV1Format(t *testing.T) {
 
 	expectMessage(t, bundle, language.AmericanEnglish, "simple", simpleMessage)
 	e := *everythingMessage
-	e.Description = ""
+	e.Desc = ""
 	expectMessage(t, bundle, language.AmericanEnglish, "everything", &e)
 }
 
@@ -224,7 +224,7 @@ func TestV1FlatFormat(t *testing.T) {
 
 	expectMessage(t, bundle, language.AmericanEnglish, "simple", simpleMessage)
 	e := *everythingMessage
-	e.Description = ""
+	e.Desc = ""
 	expectMessage(t, bundle, language.AmericanEnglish, "everything", &e)
 }
 

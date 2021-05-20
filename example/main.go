@@ -59,28 +59,36 @@ func main() {
 
 		unreadEmails := localizer.MustLocalize(&i18n.LocalizeConfig{
 			DefaultMessage: &i18n.Message{
-				ID:          "UnreadEmails",
-				Description: "The number of unread emails I have",
-				One:         "I have {{.PluralCount}} unread email.",
-				Other:       "I have {{.PluralCount}} unread emails.",
+				ID:    "UnreadEmails",
+				Desc:  "The number of unread emails I have",
+				One:   "I have {{.PluralCount}} unread email.",
+				Other: "I have {{.PluralCount}} unread emails.",
 			},
 			PluralCount: unread,
 		})
 
-		unreadEmails2 := localizer.MustLocalize(&i18n.LocalizeConfig{
+		unreadSms := localizer.MustLocalize(&i18n.LocalizeConfig{
 			DefaultMessage: &i18n.Message{
 				ID:          "UnreadSMS",
-				Description: "The number of unread emails I have",
-				One:         "I have {{.PluralCount}} unread sms.",
-				Other:       "I have {{.PluralCount}} unread sms.",
+				Desc: "The number of unread sms",
+				One:         "{{.Name}} has one {{.UnreadSms}} unread sms.",
+				Other:       "{{.Name}} has {{.UnreadSms}} unread smss.",
 			},
-			PluralCount: unread,
+			PluralCount: 5,
+			TemplateData: map[string]interface{}{
+				"Name":             name,
+				"UnreadSms": unread,
+			},
 		})
 
 		err := tpl.Execute(w, map[string]interface{}{
-			"Title":      helloPerson,
-			"Paragraphs": []string{unreadEmails,unreadEmails2},
+			"Title": helloPerson,
+			"Paragraphs": []string{
+				unreadEmails,
+				unreadSms,
+			},
 		})
+
 		if err != nil {
 			panic(err)
 		}

@@ -13,10 +13,25 @@ import (
 	"golang.org/x/text/language"
 )
 
+type ApiResult struct {
+	Code int
+	Msg  *i18n.Message // 消息内容可以是Template模板
+}
+
+const (
+	CODE_ERR_UNKNOWN = 1001
+	CODE_ERR_SERVER  = 1003
+	CODE_ERR_DB      = 1004
+	CODE_ERR_AUTH    = 1005
+	ERR_ROOM_CLOSED  = 1006
+)
+
 var (
-	error_server = i18n.Message{ID: "ERR_Server", Other: "server error", Description: "服务错误"}
-	error_db     = i18n.Message{ID: "ERR_DB", Other: "Database error", Description: "数据库错误"}
-	error_auth   = i18n.Message{ID: "ERR_Auth", Other: "auth error", Description: "授权验证失败"}
+	// response:code,message
+	ERROR_SERVER      = i18n.Message{ID: "ERR_Server", Other: "server error", Desc: "服务错误"}
+	ERROR_DB          = i18n.Message{ID: "ERR_DB", Other: "Database error", Desc: "数据库错误"}
+	ERROR_AUTH        = i18n.Message{ID: "ERR_Auth", Other: "auth error", Desc: "授权验证失败"}
+	ERROR_ROOM_CLOSED = i18n.Message{ID: "ERR_ROOM_CLOSED", Other: "{{.RoomId}} room closed", Desc: "房间已关闭"}
 )
 
 //go:generate  go run main2.go zh
@@ -30,9 +45,25 @@ func main() {
 	lang := os.Args[1]                           // 接收一个lang参数
 	localizer := i18n.NewLocalizer(bundle, lang) // 本地化转换器
 
-	// response提供i18n.Message数据
+	// 封装的API-Response
+	response := func(res ApiResult) {
+		if res.Msg == nil {
+			fmt.Printf("code=%d,msg=%s\n", res.Code, `""`)
+			return
+		}
 
-	fmt.Println(localizer.MustLocalize(&i18n.LocalizeConfig{DefaultMessage: &error_auth}))
-	fmt.Println(localizer.MustLocalize(&i18n.LocalizeConfig{DefaultMessage: &error_server}))
-	fmt.Println(localizer.MustLocalize(&i18n.LocalizeConfig{DefaultMessage: &error_db}))
+		fmt.Printf("code=%d,msg=%s\n", res.Code, localizer.MustLocalize(&i18n.LocalizeConfig{
+			DefaultMessage: res.Msg,
+			TemplateData: map[string]string{
+				"RoomId": "1008",
+			},
+		}))
+	}
+
+	// 模拟Http-Handler
+	response(ApiResult{Code: CODE_ERR_SERVER, Msg: &ERROR_SERVER})
+	response(ApiResult{Code: CODE_ERR_DB, Msg: &ERROR_DB})
+	response(ApiResult{Code: CODE_ERR_AUTH, Msg: &ERROR_AUTH})
+	response(ApiResult{Code: ERR_ROOM_CLOSED, Msg: &ERROR_ROOM_CLOSED})
+	response(ApiResult{Code: CODE_ERR_UNKNOWN})
 }

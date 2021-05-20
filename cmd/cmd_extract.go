@@ -16,28 +16,18 @@ import (
 )
 
 func usageExtract() {
-    fmt.Fprintf(os.Stderr, `usage: goi18n extract [options] [paths]
+    fmt.Fprintf(os.Stderr, `usage: i18n_cli extract [options] [paths]...
+遍历目标文件和目录，并将所有消息提取到单个文件中，如未提供文件/目录，则遍历当前工作目录。
 
-Extract walks the files and directories in paths and extracts all messages to a single file.
-If no files or paths are provided, it walks the current working directory.
-
-	xx-yy.active.format
-		This file contains messages that should be loaded at runtime.
-
-Flags:
-
+选项:
 	-sourceLanguage tag
-		The language tag of the extracted messages (e.g. en, en-US, zh-Hant-CN).
-		Default: en
-
+		提取的消息的语言标签 (如:en,en-US,zh-Hant-CN),默认为en
 	-outdir directory
-		Write message files to this directory.
-		Default: .
-
+		将消息文件写入此目录,默认为当前路径。
 	-format format
-		Output message files in this format.
-		Supported formats: json, toml, yaml
-		Default: toml
+		消息文件输出格式，支持json,toml(默认)和yaml,默认为toml
+
+示例: i18n_cli extract
 `)
 }
 

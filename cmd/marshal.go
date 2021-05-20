@@ -28,12 +28,12 @@ func marshalValue(messageTemplates map[string]*i18n.MessageTemplate, sourceLangu
 	v := make(map[string]interface{}, len(messageTemplates))
 	for id, template := range messageTemplates {
 		if other := template.PluralTemplates[plural.Other]; sourceLanguage && len(template.PluralTemplates) == 1 &&
-			other != nil && template.Description == "" && template.LeftDelim == "" && template.RightDelim == "" {
+			other != nil && template.Desc == "" && template.LeftDelim == "" && template.RightDelim == "" {
 			v[id] = other.Src
 		} else {
 			m := map[string]string{}
-			if template.Description != "" {
-				m["description"] = template.Description
+			if template.Desc != "" {
+				m["description"] = template.Desc
 			}
 			if !sourceLanguage {
 				m["hash"] = template.Hash

@@ -1,43 +1,39 @@
-go-i18n是一个Go [程序包](github.com/hollson/go-i18n#package-i18n)和一个 [命令](https://github.com/hollson/go-i18n#command-goi18n)，可以帮助您将Go程序翻译成多种语言。 
+[TOC]
 
--   支持 
+# i18n
 
-    复数字符串 
+>   **i18n**是一个Go语言版本的多语言程序包
 
-    所有200种以上语言的 
+- 支持Unicode[通用语言环境数据存储库(CLDR)](https://www.unicode.org/cldr/charts/28/supplemental/language_plural_rules.html)中200种以上语言的复数字符串。可使用[code_gen](https://github.com/hollson/i18n/internal/plural/codegen)自动生成 [CLDR数据 ](http://cldr.unicode.org/index/downloads)。 
+- 支持使用具有命名变量的字符串 [文本/模板 ](http://golang.org/pkg/text/template/)语法的 。 
+-   支持多种消息文件格式, 如JSON，TOML，YAML。
 
-    Unicode通用语言环境数据存储库（CLDR）中 
 
-    -   代码和测试是 [自动生成的 ](https://github.com/nicksnyder/go-i18n/tree/main/v2/internal/plural/codegen)从 [CLDR数据 ](http://cldr.unicode.org/index/downloads)。 
 
--   支持使用 具有命名变量的字符串 [文本/模板 ](http://golang.org/pkg/text/template/)语法的 。 
-
--   支持任何格式的消息文件（例如JSON，TOML，YAML）。 
-
-## 套餐i18n
+# i18n包说明
 
 i18n软件包提供了根据一组区域设置首选项查找消息的支持。 
 
-```
-import "github.com/nicksnyder/go-i18n/v2/i18n"
+```go
+import "github.com/hollson/i18n"
 ```
 
 创建一个捆绑包，以在您的应用程序的整个生命周期内使用。 
 
-```
+```go
 bundle := i18n.NewBundle(language.English)
 ```
 
 在初始化期间将翻译加载到您的捆绑软件中。 
 
-```
+```go
 bundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)
 bundle.LoadMessageFile("es.toml")
 ```
 
 创建一个本地化程序以用于一组语言首选项。 
 
-```
+```go
 func(w http.ResponseWriter, r *http.Request) {
     lang := r.FormValue("lang")
     accept := r.Header.Get("Accept-Language")
@@ -47,7 +43,7 @@ func(w http.ResponseWriter, r *http.Request) {
 
 使用本地化程序查找消息。 
 
-```
+```go
 localizer.Localize(&i18n.LocalizeConfig{
     DefaultMessage: &i18n.Message{
         ID: "PersonCats",
@@ -62,18 +58,18 @@ localizer.Localize(&i18n.LocalizeConfig{
 }) // Nick has 2 cats.
 ```
 
-## 命令goi18n
+## 命令i18n_cli
 
-goi18n命令管理i18n软件包使用的消息文件。 
+i18n_cli命令管理i18n软件包使用的消息文件。 
 
 ```bash
-go get -u github.com/nicksnyder/go-i18n/v2/goi18n
-goi18n -help
+go get -u github.com/hollson/i18n_cli
+i18n_cli -help
 ```
 
 ### 提取消息
 
-用  `goi18n extract` 将Go源文件中的所有i18n.Message结构体文字提取到消息文件中进行翻译。 
+用  `i18n_cli extract` 将Go源文件中的所有i18n.Message结构体文字提取到消息文件中进行翻译。 
 
 ```toml
 # active.en.toml
@@ -83,11 +79,11 @@ one = "{{.Name}} has {{.Count}} cat."
 other = "{{.Name}} has {{.Count}} cats."
 ```
 
-### 翻译新语言
+### 翻译语言
 
 1.  为您要添加的语言创建一个空的消息文件（例如，  `translate.es.toml`). 
 
-2.  跑步  `goi18n merge active.en.toml translate.es.toml` 填充  `translate.es.toml` 与要翻译的消息。 
+2.  跑步  `i18n_cli merge active.en.toml translate.es.toml` 填充  `translate.es.toml` 与要翻译的消息。 
 
     ```toml
     # translate.es.toml
@@ -112,21 +108,7 @@ other = "{{.Name}} has {{.Count}} cats."
     bundle.LoadMessageFile("active.es.toml")
     ```
 
-### 翻译新讯息 
 
-如果您在程序中添加了新消息： 
+Thanks: https://github.com/nicksnyder/go-i18n 
 
-1.  跑步  `goi18n extract` 更新  `active.en.toml` 与新消息。 
-2.  跑步  `goi18n merge active.*.toml` 生成更新  `translate.*.toml` 文件。 
-3.  翻译  `translate.*.toml` 文件。 
-4.  跑步  `goi18n merge active.*.toml translate.*.toml` 将转换后的消息合并到活动消息文件中。 
 
-## 有关更多信息和示例： 
-
--   阅读 [文档 ](https://godoc.org/github.com/nicksnyder/go-i18n/v2)。 
--   查看 [代码示例 ](https://github.com/nicksnyder/go-i18n/blob/main/v2/i18n/example_test.go)和 [测试 ](https://github.com/nicksnyder/go-i18n/blob/main/v2/i18n/localizer_test.go)。 
--   看一个示例 [应用程序 ](https://github.com/nicksnyder/go-i18n/tree/main/v2/example)。 
-
-## 执照 
-
-go-i18n在MIT许可下可用。 有关 请参见 [LICENSE ](https://github.com/hollson/go-i18n/blob/main/LICENSE)更多信息， 文件。 

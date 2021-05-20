@@ -1,29 +1,27 @@
+[ERR_Auth]
+hash = "sha1-0c763d8f7bc83ab37c1a0710a647150aca8fa2a1"
+other = "用户授权失败"
+
+[ERR_DB]
+hash = "sha1-1e7b9124d5655728f90284715c9d5dc3571a6036"
+other = "数据库错误"
+
+[ERR_ROOM_CLOSED]
+hash = "sha1-02ef6766b4c6ef59581e8137afe5534c4abba525"
+other = "{{.RoomId}} 房间已关闭"
+
+[ERR_Server]
+hash = "sha1-6ff9d9c2b03d6d4ff01db08e7e7c9a6e31664202"
+other = "服务错误"
+
 [Greeting]
 hash = "sha1-5b49bfdad81fedaeefb224b0ffc2acc58b09cff5"
 other = "你好，{{.Name}}"
 
 [UnreadEmails]
-description = "The number of unread emails I have"
-hash = "sha1-6a65d17f53981a3657db1897630e9cb069053ea8"
+hash = "sha1-55687b25cf8ac24dbc9a2e091d4d7f14bc85d90d"
 other = "您有 {{.PluralCount}} 份未读邮件."
 
 [UnreadSMS]
-description = "The number of unread emails I have"
-hash = "sha1-c9b6479a0fae2d8d73bffd12acc7f3756e9a74b6"
-other = "您有{{.PluralCount}}份未读短信."
-
-[ERR_Auth]
-description = "授权验证失败"
-hash = "sha1-452fff353b99415855701bf64be8b3718babd604"
-other = "授权验证失败"
-
-[ERR_DB]
-description = "数据库错误"
-hash = "sha1-bc46ad6c66d574603d3f70221bcc9fa12999c72a"
-other = "数据库错误"
-
-[ERR_Server]
-description = "服务错误"
-hash = "sha1-979c68301379820faea89e41d9b71576c01ba7be"
-other = "服务错误"
-
+hash = "sha1-f5aca1f705a50a9d4bd59e20fc07c8bc1218615f"
+other = "{{.Name}} 有 {{.UnreadSms}} 条未读短信 ."

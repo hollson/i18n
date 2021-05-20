@@ -19,43 +19,25 @@ import (
 )
 
 func usageMerge() {
-	fmt.Fprintf(os.Stderr, `usage: goi18n merge [options] [message files]
+	fmt.Fprintf(os.Stderr, `用法: i18n_cli merge [options] [message files]...
+合并消息文件，且文件名必须具有受支持格式的后缀(例如“ .json”),并包含RFC 5646定义的有效语言标签(例如“ en-us”,“ fr”,“ zh-hant”等)
 
-Merge reads all messages in the message files and produces two files per language.
+选项:
+	-source
+		翻译来自该语言的消息, 如: en(默认),en-US,zh-Hant-CN
+	-out
+		文件输出路径
+	-format
+		输出消息的文件格式,仅支持: toml(默认), json, yaml
 
-	xx-yy.active.format
-		This file contains messages that should be loaded at runtime.
-
-	xx-yy.translate.format
-		This file contains messages that are empty and should be translated.
-
-Message file names must have a suffix of a supported format (e.g. ".json") and
-contain a valid language tag as defined by RFC 5646 (e.g. "en-us", "fr", "zh-hant", etc.).
-
-To add support for a new language, create an empty translation file with the
-appropriate name and pass it in to goi18n merge.
-
-Flags:
-
-	-sourceLanguage tag
-		Translate messages from this language (e.g. en, en-US, zh-Hant-CN)
- 		Default: en
-
-	-outdir directory
-		Write message files to this directory.
-		Default: .
-
-	-format format
-		Output message files in this format.
-		Supported formats: json, toml, yaml
-		Default: toml
+示例: i18n_cli merge active.en.toml active.zh.toml
 `)
 }
 
 type mergeCommand struct {
-	messageFiles   []string
-	sourceLanguage languageTag
-	outdir         string
+	msgFiles   []string
+	source languageTag
+	out         string
 	format         string
 }
 
@@ -67,30 +49,30 @@ func (mc *mergeCommand) parse(args []string) error {
 	flags := flag.NewFlagSet("merge", flag.ExitOnError)
 	flags.Usage = usageMerge
 
-	flags.Var(&mc.sourceLanguage, "sourceLanguage", "en")
-	flags.StringVar(&mc.outdir, "outdir", ".", "")
+	flags.Var(&mc.source, "source", "en")
+	flags.StringVar(&mc.out, "out", ".", "")
 	flags.StringVar(&mc.format, "format", "toml", "")
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
 
-	mc.messageFiles = flags.Args()
+	mc.msgFiles = flags.Args()
 	return nil
 }
 
 func (mc *mergeCommand) execute() error {
-	if len(mc.messageFiles) < 1 {
+	if len(mc.msgFiles) < 1 {
 		return fmt.Errorf("need at least one message file to parse")
 	}
 	inFiles := make(map[string][]byte)
-	for _, path := range mc.messageFiles {
+	for _, path := range mc.msgFiles {
 		content, err := ioutil.ReadFile(path)
 		if err != nil {
 			return err
 		}
 		inFiles[path] = content
 	}
-	ops, err := merge(inFiles, mc.sourceLanguage.Tag(), mc.outdir, mc.format)
+	ops, err := merge(inFiles, mc.source.Tag(), mc.out, mc.format)
 	if err != nil {
 		return err
 	}
@@ -111,7 +93,7 @@ type fileSystemOp struct {
 	deleteFiles []string
 }
 
-func merge(messageFiles map[string][]byte, sourceLanguageTag language.Tag, outdir, outputFormat string) (*fileSystemOp, error) {
+func merge(msgFiles map[string][]byte, sourceLanguageTag language.Tag, out, outputFormat string) (*fileSystemOp, error) {
 	unmerged := make(map[language.Tag][]map[string]*i18n.MessageTemplate)
 	sourceMessageTemplates := make(map[string]*i18n.MessageTemplate)
 	unmarshalFuncs := map[string]i18n.UnmarshalFunc{
@@ -119,7 +101,7 @@ func merge(messageFiles map[string][]byte, sourceLanguageTag language.Tag, outdi
 		"toml": toml.Unmarshal,
 		"yaml": yaml.Unmarshal,
 	}
-	for path, content := range messageFiles {
+	for path, content := range msgFiles {
 		mf, err := i18n.ParseMessageFileBytes(content, path, unmarshalFuncs)
 		if err != nil {
 			return nil, fmt.Errorf("failed to load message file %s: %s", path, err)
@@ -169,9 +151,9 @@ func merge(messageFiles map[string][]byte, sourceLanguageTag language.Tag, outdi
 			if dstMessageTemplate == nil {
 				dstMessageTemplate = &i18n.MessageTemplate{
 					Message: &i18n.Message{
-						ID:          srcTemplate.ID,
-						Description: srcTemplate.Description,
-						Hash:        srcTemplate.Hash,
+						ID:   srcTemplate.ID,
+						Desc: srcTemplate.Desc,
+						Hash: srcTemplate.Hash,
 					},
 					PluralTemplates: make(map[plural.Form]*internal.Template),
 				}
@@ -232,7 +214,7 @@ func merge(messageFiles map[string][]byte, sourceLanguageTag language.Tag, outdi
 
 	writeFiles := make(map[string][]byte, len(translate)+len(active))
 	for langTag, messageTemplates := range translate {
-		path, content, err := writeFile(outdir, "translate", langTag, outputFormat, messageTemplates, false)
+		path, content, err := writeFile(out, "translate", langTag, outputFormat, messageTemplates, false)
 		if err != nil {
 			return nil, err
 		}
@@ -240,7 +222,7 @@ func merge(messageFiles map[string][]byte, sourceLanguageTag language.Tag, outdi
 	}
 	deleteFiles := []string{}
 	for langTag, messageTemplates := range active {
-		path, content, err := writeFile(outdir, "active", langTag, outputFormat, messageTemplates, langTag == sourceLanguageTag)
+		path, content, err := writeFile(out, "active", langTag, outputFormat, messageTemplates, langTag == sourceLanguageTag)
 		if err != nil {
 			return nil, err
 		}
@@ -267,9 +249,9 @@ func activeDst(src, dst *i18n.MessageTemplate, pluralRule *plural.Rule) (active 
 			if translateMessageTemplate == nil {
 				translateMessageTemplate = &i18n.MessageTemplate{
 					Message: &i18n.Message{
-						ID:          src.ID,
-						Description: src.Description,
-						Hash:        src.Hash,
+						ID:   src.ID,
+						Desc: src.Desc,
+						Hash: src.Hash,
 					},
 					PluralTemplates: make(map[plural.Form]*internal.Template),
 				}
@@ -280,9 +262,9 @@ func activeDst(src, dst *i18n.MessageTemplate, pluralRule *plural.Rule) (active 
 		if active == nil {
 			active = &i18n.MessageTemplate{
 				Message: &i18n.Message{
-					ID:          src.ID,
-					Description: src.Description,
-					Hash:        src.Hash,
+					ID:   src.ID,
+					Desc: src.Desc,
+					Hash: src.Hash,
 				},
 				PluralTemplates: make(map[plural.Form]*internal.Template),
 			}
@@ -294,7 +276,7 @@ func activeDst(src, dst *i18n.MessageTemplate, pluralRule *plural.Rule) (active 
 
 func hash(t *i18n.MessageTemplate) string {
 	h := sha1.New()
-	_, _ = io.WriteString(h, t.Description)
+	_, _ = io.WriteString(h, t.Desc)
 	_, _ = io.WriteString(h, t.PluralTemplates[plural.Other].Src)
 	return fmt.Sprintf("sha1-%x", h.Sum(nil))
 }

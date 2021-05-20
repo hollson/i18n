@@ -75,8 +75,8 @@ func TestParseMessageFileBytes(t *testing.T) {
 				Tag:    language.English,
 				Format: "json",
 				Messages: []*Message{{
-					ID:          "notnested",
-					Description: "world",
+					ID:   "notnested",
+					Desc: "world",
 				}},
 			},
 		},
@@ -102,8 +102,8 @@ func TestParseMessageFileBytes(t *testing.T) {
 				Tag:    language.English,
 				Format: "json",
 				Messages: []*Message{{
-					ID:          "notnested",
-					Description: "world",
+					ID:   "notnested",
+					Desc: "world",
 				}},
 			},
 		},

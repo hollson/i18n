@@ -46,12 +46,11 @@ type LocalizeConfig struct {
 	// This field is ignored if DefaultMessage is set.
 	MessageID string
 
-	// TemplateData is the data passed when executing the message's template.
-	// If TemplateData is nil and PluralCount is not nil, then the message template
-	// will be executed with data that contains the plural count.
+	// 模板数据
+	//  如果TemplateData为nil，而PluralCount不为nil，则将使用包含复数的数据执行消息模板。
 	TemplateData interface{}
 
-	// PluralCount determines which plural form of the message is used.
+	// PluralCount确定使用哪种复数形式的消息。
 	PluralCount interface{}
 
 	// DefaultMessage is used if the message is not found in any message files.
@@ -208,7 +207,8 @@ func (l *Localizer) pluralForm(tag language.Tag, operands *plural.Operands) plur
 func (l *Localizer) MustLocalize(lc *LocalizeConfig) string {
 	localized, err := l.Localize(lc)
 	if err != nil {
-		panic(err)
+		return ""
+		// panic(err)
 	}
 	return localized
 }

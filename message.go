@@ -5,21 +5,21 @@ import (
 	"strings"
 )
 
-// 可本地化的消息。
+// (多语言)国际化的消息。
 //  LDML，即Unicode Locale Data Markup Language(UNICODE语言环境数据标记语言);
 //  CLDR，即Unicode Common Locale Data Repository(通用语言环境数据库),可参考：
 //   http://cldr.unicode.org/index
 //   http://cldr.unicode.org/index/cldr-spec/plural-rules
 //   https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
 type Message struct {
-	// 唯一标识
+	// 消息标识(必须唯一)
 	ID string
 
 	// 唯一标识了其翻译的消息内容。
 	Hash string
 
 	// 消息描述
-	Description string
+	Desc string
 
 	// Go模板的左分隔符
 	LeftDelim string
@@ -79,7 +79,7 @@ func (m *Message) unmarshalInterface(v interface{}) error {
 		case "id":
 			m.ID = v
 		case "description":
-			m.Description = v
+			m.Desc = v
 		case "hash":
 			m.Hash = v
 		case "leftdelim":
