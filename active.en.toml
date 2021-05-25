@@ -1,0 +1,13 @@
+ERR_Auth = "auth error"
+ERR_DB = "Database error"
+ERR_ROOM_CLOSED = "{{.RoomId}} room closed"
+ERR_Server = "server error"
+Greeting = "Hello {{.Name}}"
+
+[UnreadEmails]
+one = "I have {{.PluralCount}} unread email."
+other = "I have {{.PluralCount}} unread emails."
+
+[UnreadSMS]
+one = "{{.Name}} has one {{.UnreadSms}} unread sms."
+other = "{{.Name}} has {{.UnreadSms}} unread smss."

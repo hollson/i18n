@@ -19,26 +19,31 @@ import (
 )
 
 func usageMerge() {
-	fmt.Fprintf(os.Stderr, `用法: i18n_cli merge [options] [message files]...
-合并消息文件，且文件名必须具有受支持格式的后缀(例如“ .json”),并包含RFC 5646定义的有效语言标签(例如“ en-us”,“ fr”,“ zh-hant”等)
+	fmt.Fprintf(os.Stderr, `合并消息文件:
 
-选项:
-	-source
-		翻译来自该语言的消息, 如: en(默认),en-US,zh-Hant-CN
-	-out
-		文件输出路径
-	-format
-		输出消息的文件格式,仅支持: toml(默认), json, yaml
+    合并多语言消息文件,文件名必须具有受支持格式的后缀(例如“ .json”),并包含RFC 5646定义的有效语言标签(例如“ en-us”,“ fr”,“ zh-hant”等)
 
-示例: i18n_cli merge active.en.toml active.zh.toml
+Usage: i18n_cli merge [Option]... <Param>...
+
+Option:
+    -source
+      翻译来自该语言的消息, 如: en(默认),en-US,zh-Hant-CN
+    -out
+      文件输出路径
+    -format
+      输出消息的文件格式,仅支持: toml(默认), json, yaml
+
+Example: 
+    i18n_cli merge active.en.toml active.zh.toml
+
 `)
 }
 
 type mergeCommand struct {
-	msgFiles   []string
-	source languageTag
-	out         string
-	format         string
+	msgFiles []string
+	source   languageTag
+	out      string
+	format   string
 }
 
 func (mc *mergeCommand) name() string {
@@ -62,7 +67,8 @@ func (mc *mergeCommand) parse(args []string) error {
 
 func (mc *mergeCommand) execute() error {
 	if len(mc.msgFiles) < 1 {
-		return fmt.Errorf("need at least one message file to parse")
+		usageMerge()
+		return nil
 	}
 	inFiles := make(map[string][]byte)
 	for _, path := range mc.msgFiles {

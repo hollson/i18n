@@ -16,25 +16,30 @@ import (
 )
 
 func usageExtract() {
-    fmt.Fprintf(os.Stderr, `usage: i18n_cli extract [options] [paths]...
-遍历目标文件和目录，并将所有消息提取到单个文件中，如未提供文件/目录，则遍历当前工作目录。
+    fmt.Fprintf(os.Stderr, `提取多语言消息：
 
-选项:
-	-sourceLanguage tag
-		提取的消息的语言标签 (如:en,en-US,zh-Hant-CN),默认为en
-	-outdir directory
-		将消息文件写入此目录,默认为当前路径。
-	-format format
-		消息文件输出格式，支持json,toml(默认)和yaml,默认为toml
+    遍历目标文件和目录，并将所有消息提取到translate文件中，如未提供文件/目录，则遍历当前工作目录
 
-示例: i18n_cli extract
+Usage: i18n_cli extract [Option]... <Param>...
+
+Option:
+    -source tag
+      提取的消息的语言标签 (如:en,en-US,zh-Hant-CN),默认为en
+    -out directory
+      将消息文件写入此目录,默认为当前路径。
+    -format format
+      消息文件输出格式，支持json,toml(默认)和yaml,默认为toml
+
+Example:
+    i18n_cli extract
+
 `)
 }
 
 type extractCommand struct {
     paths          []string
-    sourceLanguage languageTag
-    outdir         string
+    source languageTag
+    out         string
     format         string
 }
 
@@ -46,8 +51,8 @@ func (ec *extractCommand) parse(args []string) error {
     flags := flag.NewFlagSet("extract", flag.ExitOnError)
     flags.Usage = usageExtract
 
-    flags.Var(&ec.sourceLanguage, "sourceLanguage", "en")
-    flags.StringVar(&ec.outdir, "outdir", ".", "")
+    flags.Var(&ec.source, "source", "en")
+    flags.StringVar(&ec.out, "out", ".", "")
     flags.StringVar(&ec.format, "format", "toml", "")
     if err := flags.Parse(args); err != nil {
         return err
@@ -61,6 +66,7 @@ func (ec *extractCommand) execute() error {
     if len(ec.paths) == 0 {
         ec.paths = []string{"."}
     }
+
     messages := []*i18n.Message{}
     for _, path := range ec.paths {
         if err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
@@ -99,7 +105,7 @@ func (ec *extractCommand) execute() error {
             messageTemplates[m.ID] = mt
         }
     }
-    path, content, err := writeFile(ec.outdir, "active", ec.sourceLanguage.Tag(), ec.format, messageTemplates, true)
+    path, content, err := writeFile(ec.out, "active", ec.source.Tag(), ec.format, messageTemplates, true)
     if err != nil {
         return err
     }
