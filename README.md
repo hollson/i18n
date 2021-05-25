@@ -1,6 +1,5 @@
-# i18n
-
->   **i18n**是一个Go语言版本的多语言程序包
+# i18n 
+>   **i18n**是一个Go语言版本的多语言程序包（forked from: https://github.com/nicksnyder/go-i18n ）
 
 - 支持Unicode[通用语言环境数据存储库(CLDR)](https://www.unicode.org/cldr/charts/28/supplemental/language_plural_rules.html)中200种以上语言的复数字符串。可使用[code_gen](https://github.com/hollson/i18n/tree/master/internal/plural/codegen)自动生成 [CLDR数据 ](http://cldr.unicode.org/index/downloads)。 
 - 支持使用具有命名变量的字符串 [文本/模板 ](http://golang.org/pkg/text/template/)语法的 。 
@@ -106,7 +105,5 @@ other = "{{.Name}} has {{.Count}} cats."
     bundle.LoadMessageFile("active.es.toml")
     ```
 
-
-Thanks: https://github.com/nicksnyder/go-i18n 
 
 
