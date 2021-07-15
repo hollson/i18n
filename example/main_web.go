@@ -24,8 +24,9 @@ var tpl = template.Must(template.New("").Parse(`
 `))
 
 // 测试：
-// http://localhost:8080/?name=Nick&unread=2
-// http://localhost:8080/?name=Nick&unread=2&lang=zh
+//go:generate curl "http://localhost:8080/?name=Nick&unread=2"
+//go:generate curl -X GET "http://localhost:8080/?name=Nick&unread=20&lang=en"
+//go:generate curl -X GET "http://localhost:8080/?name=Nick&unread=30&lang=zh"
 func main() {
 	bundle := i18n.NewBundle(language.English)
 	bundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)
@@ -72,7 +73,7 @@ func main() {
 				ID:          "UnreadSMS",
 				Desc: "The number of unread sms",
 				One:         "{{.Name}} has one {{.UnreadSms}} unread sms.",
-				Other:       "{{.Name}} has {{.UnreadSms}} unread smss.",
+				Other:       "{{.Name}} has {{.UnreadSms}} unread sms.",
 			},
 			PluralCount: 5,
 			TemplateData: map[string]interface{}{

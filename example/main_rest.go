@@ -27,14 +27,14 @@ const (
 )
 
 var (
-	// response:code,message
 	ERROR_SERVER      = i18n.Message{ID: "ERR_Server", Other: "server error", Desc: "服务错误"}
-	ERROR_DB          = i18n.Message{ID: "ERR_DB", Other: "Database error", Desc: "数据库错误"}
+	ERROR_DB          = i18n.Message{ID: "ERR_DB", Other: "database error", Desc: "数据库错误"}
 	ERROR_AUTH        = i18n.Message{ID: "ERR_Auth", Other: "auth error", Desc: "授权验证失败"}
-	ERROR_ROOM_CLOSED = i18n.Message{ID: "ERR_ROOM_CLOSED", Other: "{{.RoomId}} room closed", Desc: "房间已关闭"}
+	ERROR_ROOM_CLOSED = i18n.Message{ID: "ERR_ROOM_CLOSED", Other: "{{.RoomId}} room closed", Desc: "游戏房间已关闭"}
 )
 
 //go:generate  go run main2.go zh
+//go:generate  go run main2.go en
 func main() {
 	bundle := i18n.NewBundle(language.English)
 	bundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)

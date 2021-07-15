@@ -1,13 +1,11 @@
 # i18n 
->   **i18n**是一个Go语言版本的多语言程序包（forked from: https://github.com/nicksnyder/go-i18n ）
+**i18n**是一个Go语言版本的多语言程序包
 
-- 支持Unicode[通用语言环境数据存储库(CLDR)](https://www.unicode.org/cldr/charts/28/supplemental/language_plural_rules.html)中200种以上语言的复数字符串。可使用[code_gen](https://github.com/hollson/i18n/tree/master/internal/plural/codegen)自动生成 [CLDR数据 ](http://cldr.unicode.org/index/downloads)。 
-- 支持使用具有命名变量的字符串 [文本/模板 ](http://golang.org/pkg/text/template/)语法的 。 
--   支持多种消息文件格式, 如JSON，TOML，YAML。
+- 支持Unicode[通用语言环境数据存储库(CLDR)](https://www.unicode.org/cldr/charts/28/supplemental/language_plural_rules.html)；
+- 支持使用具有命名变量的字符串 `Template`语法 ；
+-   支持多种消息文件格式, 如:  TOML、JSON、YAML；
 
-
-
-# i18n包说明
+# i18n包
 
 i18n软件包提供了根据一组区域设置首选项查找消息的支持。 
 
@@ -55,18 +53,18 @@ localizer.Localize(&i18n.LocalizeConfig{
 }) // Nick has 2 cats.
 ```
 
-## 命令i18n_cli
+# goi18n工具
 
-i18n_cli命令管理i18n软件包使用的消息文件。 
+goi18n命令管理i18n软件包使用的消息文件。 
 
 ```bash
-go get -u github.com/hollson/i18n_cli
-i18n_cli -help
+go get -u github.com/hollson/i18n
+goi18n -help
 ```
 
-### 提取消息
+## 提取消息
 
-用  `i18n_cli extract` 将Go源文件中的所有i18n.Message结构体文字提取到消息文件中进行翻译。 
+用  `goi18n extract` 将Go源文件中的所有`i18n.Message`结构体文字提取到消息文件中进行翻译。 
 
 ```toml
 # active.en.toml
@@ -76,34 +74,33 @@ one = "{{.Name}} has {{.Count}} cat."
 other = "{{.Name}} has {{.Count}} cats."
 ```
 
-### 翻译语言
+## 翻译消息
 
-1.  为您要添加的语言创建一个空的消息文件（例如，  `translate.es.toml`). 
+1.创建一个空的消息文件，如 `translate.es.toml`
 
-2.  跑步  `i18n_cli merge active.en.toml translate.es.toml` 填充  `translate.es.toml` 与要翻译的消息。 
+2.执行`goi18n merge active.en.toml translate.es.toml` 填充  `translate.es.toml` 与要翻译的消息。 
+```toml
+# translate.es.toml
+[HelloPerson]
+hash = "sha1-5b49bfdad81fedaeefb224b0ffc2acc58b09cff5"
+other = "Hello {{.Name}}"
+ ```
 
-    ```toml
-    # translate.es.toml
-    [HelloPerson]
-    hash = "sha1-5b49bfdad81fedaeefb224b0ffc2acc58b09cff5"
-    other = "Hello {{.Name}}"
-    ```
+3.`translate.es.toml` 已翻译，将其重命名为  `active.es.toml`. 
+```toml
+# active.es.toml
+[HelloPerson]
+hash = "sha1-5b49bfdad81fedaeefb224b0ffc2acc58b09cff5"
+other = "Hola {{.Name}}"
+```
 
-3.  后  `translate.es.toml` 已翻译，将其重命名为  `active.es.toml`. 
+4.加载`active.es.toml`文件。 
 
-    ```toml
-    # active.es.toml
-    [HelloPerson]
-    hash = "sha1-5b49bfdad81fedaeefb224b0ffc2acc58b09cff5"
-    other = "Hola {{.Name}}"
-    ```
-
-4.  加载  `active.es.toml` 进入您的捆绑包。 
-
-    ```toml
-    bundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)
-    bundle.LoadMessageFile("active.es.toml")
-    ```
+```go
+bundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)
+bundle.LoadMessageFile("active.es.toml")
+```
 
 
+> https://github.com/nicksnyder/go-i18n
 

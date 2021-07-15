@@ -80,14 +80,14 @@ func (e *MessageNotFoundErr) Error() string {
 	return fmt.Sprintf("message %q not found in language %q", e.messageID, e.tag)
 }
 
-type pluralizeErr struct {
-	messageID string
-	tag       language.Tag
-}
-
-func (e *pluralizeErr) Error() string {
-	return fmt.Sprintf("unable to pluralize %q because there no plural rule for %q", e.messageID, e.tag)
-}
+// type pluralizeErr struct {
+// 	messageID string
+// 	tag       language.Tag
+// }
+//
+// func (e *pluralizeErr) Error() string {
+// 	return fmt.Sprintf("unable to pluralize %q because there no plural rule for %q", e.messageID, e.tag)
+// }
 
 type messageIDMismatchErr struct {
 	messageID        string
@@ -208,7 +208,6 @@ func (l *Localizer) MustLocalize(lc *LocalizeConfig) string {
 	localized, err := l.Localize(lc)
 	if err != nil {
 		return ""
-		// panic(err)
 	}
 	return localized
 }
