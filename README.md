@@ -119,7 +119,7 @@ func main() {
 }
 ```
 
-
+<br/>
 
 ### 提取词汇
 
@@ -136,30 +136,34 @@ one = "{{.Name}} has one {{.UnreadSms}} unread sms."
 other = "{{.Name}} has {{.UnreadSms}} unread sms."
 ```
 
-
+<br/>
 
 ### 合并消息
 
-1. 假如我们需要提供一个中文的词汇库，此时需要创建一个`zh`空文件： `touch translate.zh.toml`
+假如我们需要提供一个中文的词汇库，此时需要创建一个`zh`空文件： `touch translate.zh.toml`
 
-2. 执行`goi18n merge active.en.toml translate.zh.toml` ，将要翻译的词汇拷贝到 `translate.zh.toml`文件中。
+执行`goi18n merge active.en.toml translate.zh.toml` ，将要翻译的词汇拷贝到 `translate.zh.toml`文件中。
 
-3. 注意，如果`translate.zh.toml`已存在，则merge命令会将新增的词汇合并到`touch translate.zh.toml`中。
+注意，如果`translate.zh.toml`已存在，则merge命令会将新增的词汇合并到`touch translate.zh.toml`中。
 
-4. 人工翻译汉化包文件
+<br/>
 
-    ```toml
-    # active.zh.toml
-    [UnreadEmails]
-    hash = "sha1-55687b25cf8ac24dbc9a2e091d4d7f14bc85d90d"
-    other = "您有 {{.PluralCount}} 份未读邮件."
+### 翻译并渲染
 
-    [UnreadSMS]
-    hash = "sha1-f5aca1f705a50a9d4bd59e20fc07c8bc1218615f"
-    other = "{{.Name}} 有 {{.UnreadSms}} 条未读短信 ."
-    ```
+人工翻译汉化包文件
 
-5. 运行示例程序，并测试
+```toml
+# active.zh.toml
+[UnreadEmails]
+hash = "sha1-55687b25cf8ac24dbc9a2e091d4d7f14bc85d90d"
+other = "您有 {{.PluralCount}} 份未读邮件."
+
+[UnreadSMS]
+hash = "sha1-f5aca1f705a50a9d4bd59e20fc07c8bc1218615f"
+other = "{{.Name}} 有 {{.UnreadSms}} 条未读短信 ."
+```
+
+运行示例程序，并测试
 
 ```sh
 $ curl -X GET "http://localhost:8080/?name=Nick&unread=20"
