@@ -15,9 +15,10 @@ import (
 
 type ApiResult struct {
 	Code int
-	Msg  *i18n.Message // 消息内容可以是Template模板
+	Msg  *i18n.Message
 }
 
+// 自定义的服务端消息码
 const (
 	CODE_ERR_UNKNOWN = 1001
 	CODE_ERR_SERVER  = 1003
@@ -26,6 +27,7 @@ const (
 	ERR_ROOM_CLOSED  = 1006
 )
 
+// goi8n命令行工具，可以提取所有go文件中的i18n.Message对象
 var (
 	ERROR_SERVER      = i18n.Message{ID: "ERR_Server", Other: "server error", Desc: "服务错误"}
 	ERROR_DB          = i18n.Message{ID: "ERR_DB", Other: "database error", Desc: "数据库错误"}
@@ -36,8 +38,8 @@ var (
 //go:generate  go run main2.go zh
 //go:generate  go run main2.go en
 func main() {
-	bundle := i18n.NewBundle(language.English)
-	bundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)
+	bundle := i18n.NewBundle(language.English)           // 默认英语
+	bundle.RegisterUnmarshalFunc("toml", toml.Unmarshal) // 文件格式
 
 	// 不需要加载active.en.toml，因为我们提供了默认的翻译。
 	bundle.MustLoadMessageFile("active.zh.toml")
@@ -60,7 +62,7 @@ func main() {
 		}))
 	}
 
-	// 模拟Http-Handler
+	// 模拟Http响应
 	response(ApiResult{Code: CODE_ERR_SERVER, Msg: &ERROR_SERVER})
 	response(ApiResult{Code: CODE_ERR_DB, Msg: &ERROR_DB})
 	response(ApiResult{Code: CODE_ERR_AUTH, Msg: &ERROR_AUTH})

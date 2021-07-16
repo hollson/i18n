@@ -1,4 +1,7 @@
-// Command example runs a sample webserver that uses go-i18n/v2/i18n.
+// Copyright 2021 Hollson. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file.
+
 package main
 
 import (
