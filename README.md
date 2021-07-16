@@ -140,53 +140,55 @@ other = "{{.Name}} has {{.UnreadSms}} unread sms."
 
 ### 合并消息
 
-1.  假如我们需要提供一个中文的词汇库，此时需要创建一个`zh`空文件： `touch translate.zh.toml`
+1. 假如我们需要提供一个中文的词汇库，此时需要创建一个`zh`空文件： `touch translate.zh.toml`
 
-2.  执行`goi18n merge active.en.toml translate.zh.toml` ，将要翻译的词汇拷贝到 `translate.zh.toml`文件中。
+2. 执行`goi18n merge active.en.toml translate.zh.toml` ，将要翻译的词汇拷贝到 `translate.zh.toml`文件中。
 
-3.   注意，如果`translate.zh.toml`已存在，则merge命令会将新增的词汇合并到`touch translate.zh.toml`中。
+3. 注意，如果`translate.zh.toml`已存在，则merge命令会将新增的词汇合并到`touch translate.zh.toml`中。
 
-4 . 人工翻译汉化包文件
+4. 人工翻译汉化包文件
 
-```toml
-# active.zh.toml
-[UnreadEmails]
-hash = "sha1-55687b25cf8ac24dbc9a2e091d4d7f14bc85d90d"
-other = "您有 {{.PluralCount}} 份未读邮件."
+    ```toml
+    # active.zh.toml
+    [UnreadEmails]
+    hash = "sha1-55687b25cf8ac24dbc9a2e091d4d7f14bc85d90d"
+    other = "您有 {{.PluralCount}} 份未读邮件."
 
-[UnreadSMS]
-hash = "sha1-f5aca1f705a50a9d4bd59e20fc07c8bc1218615f"
-other = "{{.Name}} 有 {{.UnreadSms}} 条未读短信 ."
-```
+    [UnreadSMS]
+    hash = "sha1-f5aca1f705a50a9d4bd59e20fc07c8bc1218615f"
+    other = "{{.Name}} 有 {{.UnreadSms}} 条未读短信 ."
+    ```
 
-5.  运行示例程序，并测试
+5. 运行示例程序，并测试
 
 ```sh
 $ curl -X GET "http://localhost:8080/?name=Nick&unread=20"
 ```
-默认方式输出：
-```html
-<!DOCTYPE html>
-<html>
-<body>
-        <h1>Hello Nick</h1>
-        <p>I have 20 unread emails.</p><p>Nick has 20 unread sms.</p>
-</body>
-</html>
-```
+**默认方式输出：**
+
+    ```html
+    <!DOCTYPE html>
+    <html>
+    <body>
+            <h1>Hello Nick</h1>
+            <p>I have 20 unread emails.</p><p>Nick has 20 unread sms.</p>
+    </body>
+    </html>
+    ```
 ```sh
 $  curl -X GET "http://localhost:8080/?name=Nick&unread=30&lang=zh"
 ```
-汉化方式输出： 
-```html
-<!DOCTYPE html>
-<html>
-<body>
-        <h1>你好，Nick</h1>
-        <p>您有 30 份未读邮件.</p><p>Nick 有 30 条未读短信 .</p>
-</body>
-</html>
-```
+**汉化方式输出：** 
+
+    ```html
+    <!DOCTYPE html>
+    <html>
+    <body>
+            <h1>你好，Nick</h1>
+            <p>您有 30 份未读邮件.</p><p>Nick 有 30 条未读短信 .</p>
+    </body>
+    </html>
+    ```
 
 
 
