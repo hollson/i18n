@@ -164,31 +164,33 @@ other = "{{.Name}} has {{.UnreadSms}} unread sms."
 ```sh
 $ curl -X GET "http://localhost:8080/?name=Nick&unread=20"
 ```
+
 **默认方式输出：**
 
-    ```html
-    <!DOCTYPE html>
-    <html>
-    <body>
-            <h1>Hello Nick</h1>
-            <p>I have 20 unread emails.</p><p>Nick has 20 unread sms.</p>
-    </body>
-    </html>
-    ```
+```html
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Hello Nick</h1>
+    <p>I have 20 unread emails.</p><p>Nick has 20 unread sms.</p>
+</body>
+</html>
+```
 ```sh
 $  curl -X GET "http://localhost:8080/?name=Nick&unread=30&lang=zh"
 ```
+
 **汉化方式输出：** 
 
-    ```html
-    <!DOCTYPE html>
-    <html>
-    <body>
-            <h1>你好，Nick</h1>
-            <p>您有 30 份未读邮件.</p><p>Nick 有 30 条未读短信 .</p>
-    </body>
-    </html>
-    ```
+```html
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>你好，Nick</h1>
+    <p>您有 30 份未读邮件.</p><p>Nick 有 30 条未读短信 .</p>
+</body>
+</html>
+```
 
 
 
