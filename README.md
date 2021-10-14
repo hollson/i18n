@@ -1,10 +1,10 @@
 # i18n
 
-**i18n**是一个Go语言版本的多语言(国际化)包，并提供了`go18in`命令行工具。
+**i18n**是一个Go语言版本的[多语言]((./lang.md))(国际化)包，并提供了`go18in`命令行工具。
 
 - 支持Unicode[通用语言环境数据存储库(CLDR)](https://www.unicode.org/cldr/charts/28/supplemental/language_plural_rules.html)；
 - 支持使用具有命名变量的字符串 `Template`语法 ；
--   支持多种消息文件格式, 如:  TOML、JSON、YAML；
+- 支持多种消息文件格式, 如:  TOML、JSON、YAML；
 
 
 <br/>
@@ -201,5 +201,6 @@ $  curl -X GET "http://localhost:8080/?name=Nick&unread=30&lang=zh"
 <br/>
 
 >   参考链接： https://github.com/nicksnyder/go-i18n
+
 
 
