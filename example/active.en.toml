@@ -1,13 +1,15 @@
-ERR_Auth = "auth error"
-ERR_DB = "Database error"
-ERR_ROOM_CLOSED = "{{.RoomId}} room closed"
-ERR_Server = "server error"
+G1001 = "server error英语 1"
+G1004 = "database error"
+G1005 = "auth error"
+G1006 = "the {{.RoomId}} room closed"
 Greeting = "Hello {{.Name}}"
+SERVER_ERROR = "server error"
 
 [UnreadEmails]
 one = "I have {{.PluralCount}} unread email."
 other = "I have {{.PluralCount}} unread emails."
+zero = "I have 0 unread email."
 
 [UnreadSMS]
 one = "{{.Name}} has one {{.UnreadSms}} unread sms."
-other = "{{.Name}} has {{.UnreadSms}} unread smss."
+other = "{{.Name}} has {{.UnreadSms}} unread sms."

@@ -19,7 +19,7 @@ func usageExtract() {
     fmt.Fprintf(os.Stderr, `提取多语言消息：
 
     遍历目标文件和目录，并将所有消息提取到translate文件中，如未提供文件/目录，则遍历当前工作目录
-
+ƒ
 Usage: i18n_cli extract [Option]... <Param>...
 
 Option:

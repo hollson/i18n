@@ -1,0 +1,13 @@
+
+
+[G1005]
+hash = "sha1-0c763d8f7bc83ab37c1a0710a647150aca8fa2a1"
+other = "汉语2"
+
+[G1006]
+hash = "sha1-d87b9e15077d0f5c500006e2e4d25856da844e1e"
+other = "the {{.RoomId}} room closed"
+
+[SERVER_ERROR]
+hash = "sha1-6ff9d9c2b03d6d4ff01db08e7e7c9a6e31664202"
+other = "server error"

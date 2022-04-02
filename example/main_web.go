@@ -21,7 +21,7 @@ var tpl = template.Must(template.New("").Parse(`
 <html>
 <body>
 	<h1>{{.Title}}</h1>
-	{{range .Paragraphs}}<p>{{.}}</p>{{end}}
+	{{range .Paragraphs}}<p>{{.}}</p>{{end}}<br/>
 </body>
 </html>
 `))
@@ -64,7 +64,8 @@ func main() {
 		unreadEmails := localizer.MustLocalize(&i18n.LocalizeConfig{
 			DefaultMessage: &i18n.Message{
 				ID:    "UnreadEmails",
-				Desc:  "The number of unread emails I have",
+				// Desc:  "The number of unread emails I have",
+				Zero: "I have 0 unread email.",
 				One:   "I have {{.PluralCount}} unread email.",
 				Other: "I have {{.PluralCount}} unread emails.",
 			},

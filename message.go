@@ -67,7 +67,7 @@ func NewMessage(data interface{}) (*Message, error) {
 func MustNewMessage(data interface{}) *Message {
 	m, err := NewMessage(data)
 	if err != nil {
-		panic(err)
+		panic(any(err))
 	}
 	return m
 }
