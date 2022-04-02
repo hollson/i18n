@@ -31,7 +31,7 @@ install:build
 
 ## commit <msg>@提交Git(格式:make commit msg=备注内容,msg为可选参数)。
 .PHONY:commit
-message:=$(if $(msg),$(msg),"Rebuilded at $$(date '+%Y年%m月%d日 %H时%M分%S秒')")
+message:=$(if $(msg),$(msg),"Rebuilded at $$(date '+%Y/%m/%d %H:%M:%S')")
 commit:
 	@echo "\033[0;34mPush to remote...\033[0m"
 	@git add .
